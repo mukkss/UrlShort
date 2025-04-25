@@ -1,4 +1,4 @@
-# UrlShort 🚀
+# UrlShort 
 
 A FastAPI-based URL Shortener service that allows users to convert long URLs into shortened links, and redirect users to the original URLs using the short codes.
 
@@ -100,7 +100,7 @@ The API will be available at: [http://localhost:8000](http://localhost:8000)
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 urlshort/
