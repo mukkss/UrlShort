@@ -3,29 +3,29 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-#Load the ENV Variables
+# Load environment variables from .env
 load_dotenv()
 
+# Use Aiven PostgreSQL credentials from environment variables
+DB_USER = os.getenv("DB_USER")
+DB_PASS = os.getenv("DB_PASS")
+DB_HOST = os.getenv("DB_HOST")
+DB_PORT = os.getenv("DB_PORT")
+DB_NAME = os.getenv("DB_NAME")
 
-DB_HOST = 'localhost'
-DB_PORT = 5432
-DB_USER = 'postgres'
-DB_PASS = 1102
-DB_NAME = 'urls_short'
+# Aiven requires SSL, so include sslmode=require
+DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}?sslmode=require"
 
-# Construct the database URL
-DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-
-# Create the database engine
+# Create the SQLAlchemy engine
 engine = create_engine(DATABASE_URL)
 
-# Create a SessionLocal class
+# Create a configured session class
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Function to get the database session
+# Function to get a database session
 def get_db():
     """
-    Returns a database session. 
+    Yields a database session and ensures it's closed afterward.
     """
     db = SessionLocal()
     try:
