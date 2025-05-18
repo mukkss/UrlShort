@@ -7,11 +7,11 @@ from sqlalchemy.orm import sessionmaker
 load_dotenv()
 
 
-DB_HOST = os.environ.get("DB_HOST", "localhost")
-DB_PORT = int(os.environ.get("DB_PORT", 5432))
-DB_USER = os.environ.get("DB_USER")
-DB_PASS = os.environ.get("DB_PASS")
-DB_NAME = os.environ.get("DB_NAME")
+DB_HOST = 'localhost'
+DB_PORT = 5432
+DB_USER = 'postgres'
+DB_PASS = 1102
+DB_NAME = 'urls_short'
 
 # Construct the database URL
 DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"

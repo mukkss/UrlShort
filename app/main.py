@@ -6,6 +6,9 @@ from sqlalchemy.orm import Session
 from app.database import get_db, engine
 from fastapi import HTTPException, Depends
 from pydantic import BaseModel, field_validator
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
 
 # Base URL for shortened URLs.  Make this configurable.
 BASE_URL = os.environ.get("BASE_URL", "http://localhost:8000")
@@ -38,6 +41,20 @@ app = fastapi.FastAPI()
 
 # Create the database tables
 Base.metadata.create_all(bind=engine)
+
+# --- ADD THIS SECTION FOR STATIC FILES ---
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+
+# Initialize Jinja2 templates
+templates = Jinja2Templates(directory="app/templates")  # Create a "templates" directory
+
+
+@app.get("/", response_class=HTMLResponse)
+async def serve_frontend(request: fastapi.Request):  # Add the request parameter
+    """
+    Serves the main HTML frontend using Jinja2.
+    """
+    return templates.TemplateResponse("index.html", {"request": request})  # Pass the request to the template
 
 
 def generate_short_code(length=6):
