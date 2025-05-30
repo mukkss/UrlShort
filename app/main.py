@@ -8,10 +8,10 @@ from fastapi import HTTPException, Depends
 from pydantic import BaseModel, field_validator
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse , FileResponse
 
 # Base URL for shortened URLs.  Make this configurable.
-BASE_URL = os.environ.get("BASE_URL", "http://shorty")
+BASE_URL = os.environ.get("BASE_URL", "http://localhost:8000")
 
 
 # Define the data model for the request
@@ -42,6 +42,11 @@ app = fastapi.FastAPI()
 @app.get("/healthz")
 def healthz():
     return {"status": "ok"}
+
+
+@app.get("/favicon.ico")
+async def favicon():
+    return FileResponse("static/favicon.ico")
 
 # Create the database tables
 Base.metadata.create_all(bind=engine)
