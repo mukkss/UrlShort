@@ -140,3 +140,7 @@ async def redirect_url(short_code: str, db: Session = Depends(get_db)):
     except Exception as e:
         print(f"Error: {e}")
         raise HTTPException(status_code=500, detail="Failed to retrieve URL")
+
+@app.get("/healthz")
+def healthz():
+    return {"status": "ok"}
